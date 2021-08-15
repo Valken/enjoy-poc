@@ -1,0 +1,21 @@
+version: "3.7"
+services:
+  authz:
+    build:
+      context: ./authz
+      dockerfile: Dockerfile
+
+  service:
+    build:
+      context: ./service
+      dockerfile: Dockerfile
+
+  envoy:
+    image: envoyproxy/envoy-dev
+    volumes: 
+      - ./envoy-config.yaml:/envoy-config.yaml
+    command:
+      - -c envoy-config.yaml
+    ports:
+      - 8000:8000
+      - 9901:9901
