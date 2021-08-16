@@ -4,6 +4,9 @@ services:
     build:
       context: ./authz
       dockerfile: Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://*:5000
 
   service:
     build:
@@ -14,6 +17,8 @@ services:
     image: envoyproxy/envoy-dev
     volumes: 
       - ./envoy-config.yaml:/envoy-config.yaml
+      - ./crt.pem:/crt.pem
+      - ./key.pem:/key.pem
     command:
       - -c envoy-config.yaml
     ports:

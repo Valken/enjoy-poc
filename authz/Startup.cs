@@ -24,6 +24,11 @@ namespace authz
         {
             app.Run(async context =>
             {
+                foreach (var header in context.Request.Headers)
+                {
+                    Console.WriteLine($"{header.Key}: {header.Value}");
+                }
+                
                 if (context.Request.Query.TryGetValue("i_am_super_secret", out var secretValue) &&
                     secretValue.Contains("yes"))
                 {
@@ -34,7 +39,6 @@ namespace authz
                     context.Response.StatusCode = 403;
                     await context.Response.WriteAsync("Forbidden");
                 }
-                
             });
         }
     }
